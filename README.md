@@ -1,2 +1,2 @@
 # Python-Workspace
-## A centralized location for my various projects written I. Python. 
+## A centralized location for my various projects written in Python. 

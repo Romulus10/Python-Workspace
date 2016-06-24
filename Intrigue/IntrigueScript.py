@@ -46,7 +46,6 @@ def extract_code(file_name):
 
 if __name__ == "__main__":
     import doctest
-
     doctest.testmod()
     sp = ScriptProcessor()
     repl = IntrigueREPL()
