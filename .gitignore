@@ -1,9 +1,3 @@
 *.pyc
 *.txt
-*.spec
-*.tmp
-*.ps1
-PyBook/.idea/
-PyBook/build/
-PyBook/dist/
 Textbooks/files/
