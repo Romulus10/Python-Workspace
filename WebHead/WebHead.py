@@ -26,3 +26,5 @@ while not done:
     if option == "help":
         for x in cmds:
             print(x)
+    if option == "quit":
+        done = False
