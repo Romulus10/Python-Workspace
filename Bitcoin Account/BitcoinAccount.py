@@ -8,23 +8,15 @@ class BitcoinAccount(object):
         self.bitcoin_amount = .05414768
 
     def main(self):
-        print("Bitcoin Account")
-        done = False
-        while not done:
-            cmd = str(raw_input("> "))
-            if cmd == "quit":
-                done = True
-            elif cmd == "update":
-                self.update()
-            elif cmd == "load":
-                self.load()
-            elif cmd == "save":
-                self.save()
-            elif cmd == "print":
-                self.print_list()
-            else:
-                print("Invalid command.")
-            print
+        minu = raw_input("minutes> ")
+        minu = int(minu)
+        self.load()
+        self.update()
+        self.save()
+        for x in range(minu):
+            time.sleep(60)
+            self.update()
+            self.save()
 
     def update(self):
         print("Connecting to Bitstamp.")
