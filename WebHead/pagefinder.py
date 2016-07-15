@@ -37,10 +37,6 @@ class PageFinder(object):
         return
 
     def go(self):
-        file_name = raw_input("file to write to> ")
-        f = open(file_name, "w")
-        f.write("")
-        f.close()
         thing = raw_input("URL to crawl: ")
         self.keyword = raw_input("Keyword to search for: ")
         self.list_of_pages.append(thing)
