@@ -5,7 +5,7 @@ import time
 class BitcoinAccount(object):
     def __init__(self):
         self.current = []
-        self.bitcoin_amount = .05414768
+        self.bitcoin_amount = .05716988
 
     def main(self):
         minu = raw_input("minutes> ")
