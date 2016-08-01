@@ -1,6 +1,5 @@
-import doctest
-import shelve
 import os
+import shelve
 
 
 class Database (object):
