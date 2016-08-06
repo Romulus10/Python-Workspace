@@ -1,3 +1,4 @@
+import datetime
 import sys
 import time
 
@@ -10,47 +11,51 @@ class BitcoinAccount(object):
         self.bitcoin_amount = .06521442
 
     def main(self):
-        sys.stdout = open("logfile.log", "a")
+        sys.stdout = open(sys.argv[2], "a")
+        sys.stderr = open(sys.argv[2], "a")
         self.load()
         self.update()
         self.save()
         sys.stdout.close()
+        sys.stderr.close()
         while True:
-            sys.stdout = open("logfile.log", "a")
+            sys.stdout = open(sys.argv[2], "a")
+            sys.stderr = open(sys.argv[2], "a")
             time.sleep(60)
             self.update()
             self.save()
             sys.stdout.close()
+            sys.stderr.close()
 
     def update(self):
-        print("Connecting to Bitstamp.")
+        print(str(datetime.datetime.now().time()) + " Connecting to Bitstamp.")
         try:
             r = requests.get('https://www.bitstamp.net/api/ticker/')
-            print("Connected.")
+            print(str(datetime.datetime.now().time()) + " Connected.")
             j = r.json()
             d = j['last']
             now = time.strftime("%a %b %d %H:%M:%S %Y")
             value = float(d) * self.bitcoin_amount
             string = str(d) + ";" + str(self.bitcoin_amount) + ";" + str(now) + ";" + str(value)
             self.current.append(string)
-            print("New value retrieved.")
+            print(str(datetime.datetime.now().time()) + " New value retrieved.")
         except requests.ConnectionError:
-            print("Connection failed.")
+            print(str(datetime.datetime.now().time()) + " Connection failed.")
 
     def load(self):
-        f = open("bitcoin.txt", "r")
+        f = open(sys.argv[1], "r")
         self.current = f.readlines()
         f.close()
         for x in range(len(self.current)):
             self.current[x] = self.current[x].strip("\n")
-        print("Loaded bitcoin file.")
+        print(str(datetime.datetime.now().time()) + " Loaded bitcoin file.")
 
     def save(self):
-        f = open("bitcoin.txt", "w")
+        f = open(sys.argv[1], "w")
         for x in self.current:
             f.write(x + "\n")
         f.close()
-        print("Saved to bitcoin file.")
+        print(str(datetime.datetime.now().time()) + " Saved to bitcoin file.")
 
     def print_list(self):
         for x in self.current:
