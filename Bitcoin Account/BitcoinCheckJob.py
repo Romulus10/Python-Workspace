@@ -8,7 +8,7 @@ import requests
 class BitcoinAccount(object):
     def __init__(self):
         self.current = []
-        self.bitcoin_amount = .06521442
+        self.bitcoin_amount = .07359801
 
     def main(self):
         sys.stdout = open(sys.argv[2], "a")
