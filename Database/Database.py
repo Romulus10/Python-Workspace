@@ -5,142 +5,140 @@ import shelve
 class Database(object):
     def __init__(self, name):
         """
-		Creates a database structure of nested objects.
-
-		Doctest:
-		>>> db = Database('test')
-		"""
+        Creates a database structure of nested objects.
+        Doctest:
+        >>> db = Database('test')
+        """
         self.name = name
         self.tables = dict()
         self.count = 0
 
     def add_table(self, name, fields):
         """
-		Create a new table object within the database.
+        Create a new table object within the database.
 
-		Doctest:
-		>>> db = Database('test')
-		>>> db.add_table('test', ['one'])
-		>>> print(db.tables['test'].fields)
-		['one']
-		"""
+        Doctest:
+        >>> db = Database('test')
+        >>> db.add_table('test', ['one'])
+        >>> print(db.tables['test'].fields)
+        ['one']
+        """
         self.tables[name] = self.Table(name, fields)
 
     def drop_table(self, name):
         """
-		Remove table object [name] from the database.
+        Remove table object [name] from the database.
 
-		Doctest:
-		>>> db = Database('test')
-		>>> db.add_table('test', ['one'])
-		>>> print(db.tables['test'].fields)
-		['one']
-		>>> db.drop_table('test')
-		>>> print(db.tables)
-		{}
-		"""
+        Doctest:
+        >>> db = Database('test')
+        >>> db.add_table('test', ['one'])
+        >>> print(db.tables['test'].fields)
+        ['one']
+        >>> db.drop_table('test')
+        >>> print(db.tables)
+        {}
+        """
         self.tables.pop(name)
 
     def insert_row(self, table, name, values):
         """
-		Insert row [name] with fields [where field is List] into [table]
+        Insert row [name] with fields [where field is List] into [table]
 
-		Doctest:
-		>>> db = Database('test')
-		>>> db.add_table('test', ['one'])
-		>>> db.insert_row('test', 'test', ['one'])
-		>>> print(db.tables['test'].rows['test'].stuff)
-		{'one': 'one'}
-		"""
+        Doctest:
+        >>> db = Database('test')
+        >>> db.add_table('test', ['one'])
+        >>> db.insert_row('test', 'test', ['one'])
+        >>> print(db.tables['test'].rows['test'].stuff)
+        {'one': 'one'}
+        """
         self.tables[table].add_row(
             name, self.count, self.tables[table].fields, values)
         self.count += 1
 
     def drop_row(self, name, row):
         """
-		Delete [row] from table [name]
-
-		Doctest:
-		>>> db = Database('test')
-		>>> db.add_table('test', ['one'])
-		>>> db.insert_row('test', 'test', ['one'])
-		>>> print(db.tables['test'].rows['test'].stuff)
-		{'one': 'one'}
-		>>> db.drop_row('test', 'test')
-		>>> print(db.tables['test'].rows)
-		{}
-		"""
+        Delete [row] from table [name]
+        Doctest:
+        >>> db = Database('test')
+        >>> db.add_table('test', ['one'])
+        >>> db.insert_row('test', 'test', ['one'])
+        >>> print(db.tables['test'].rows['test'].stuff)
+        {'one': 'one'}
+        >>> db.drop_row('test', 'test')
+        >>> print(db.tables['test'].rows
+        {}
+        """
         self.tables[name].rows.pop(row)
 
     def get_field_by_name(self, field, table, name):
         """
-		Get [field] from row [name] in [table]
+        Get [field] from row [name] in [table]
 
-		Doctest:
-		>>> db = Database('test')
-		>>> db.add_table('test', ['one'])
-		>>> db.insert_row('test', 'test', ['one'])
-		>>> print(db.tables['test'].rows['test'].stuff)
-		{'one': 'one'}
-		>>> db.get_field_by_name('one', 'test', 'test')
-		'one'
-		"""
+        Doctest:
+        >>> db = Database('test')
+        >>> db.add_table('test', ['one'])
+        >>> db.insert_row('test', 'test', ['one'])
+        >>> print(db.tables['test'].rows['test'].stuff)
+        {'one': 'one'}
+        >>> db.get_field_by_name('one', 'test', 'test')
+        'one'
+        """
         return self.tables[table].rows[name].stuff[field]
 
     def get_field_by_condition(self, x, y, z, table):
         """
-		Get key [z] from [table] if value [y] is in key [x]
+        Get key [z] from [table] if value [y] is in key [x]
 
-		Doctest:
-		>>> db = Database('test')
-		>>> db.add_table('test', ['one'])
-		>>> db.insert_row('test', 'test', ['one'])
-		>>> print(db.tables['test'].rows['test'].stuff)
-		{'one': 'one'}
-		>>> db.get_field_by_condition('one', 'one', 'one', 'test')
-		'one'
-		"""
+        Doctest:
+        >>> db = Database('test')
+        >>> db.add_table('test', ['one'])
+        >>> db.insert_row('test', 'test', ['one'])
+        >>> print(db.tables['test'].rows['test'].stuff)
+        {'one': 'one'}
+        >>> db.get_field_by_condition('one', 'one', 'one', 'test')
+        'one'
+        """
         for a in self.tables[table].rows:
             if self.tables[table].rows[a].stuff[x] == y:
                 return self.tables[table].rows[a].stuff[z]
 
     def get_field_by_id(self, field, table, ID):
         """
-		Get [field] from row [ID] in [table]
+        Get [field] from row [ID] in [table]
 
-		Doctest:
-		>>> db = Database('test')
-		>>> db.add_table('test', ['one'])
-		>>> db.insert_row('test', 'test', ['one'])
-		>>> print(db.tables['test'].rows['test'].stuff)
-		{'one': 'one'}
-		>>> db.get_field_by_id('one', 'test', 0)
-		'one'
-		"""
+        Doctest:
+        >>> db = Database('test')
+        >>> db.add_table('test', ['one'])
+        >>> db.insert_row('test', 'test', ['one'])
+        >>> print(db.tables['test'].rows['test'].stuff)
+        {'one': 'one'}
+        >>> db.get_field_by_id('one', 'test', 0)
+        'one'
+        """
         for a in self.tables[table].rows:
             if self.tables[table].rows[a].id == ID:
                 return self.tables[table].rows[a].stuff[field]
 
     def commit(self):
         """
-		Get [field] from row [ID] in [table]
+        Get [field] from row [ID] in [table]
 
-		Doctest:
-		>>> db = Database('test')
-		>>> db.add_table('test', ['one'])
-		>>> db.insert_row('test', 'test', ['one'])
-		>>> db.commit()
-		"""
+        Doctest:
+        >>> db = Database('test')
+        >>> db.add_table('test', ['one'])
+        >>> db.insert_row('test', 'test', ['one'])
+        >>> db.commit()
+        """
         shelf = shelve.open(self.name)
         shelf['db'] = self
         shelf.close()
 
     def db_close(self):
         """
-		Doctest:
-		>>> db = Database('test')
-		>>> db.close()
-		"""
+        Doctest:
+        >>> db = Database('test')
+        >>> db.db_close()
+        """
         self.commit()
 
     class Table(object):
